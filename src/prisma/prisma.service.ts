@@ -4,13 +4,20 @@ import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class PrismaService extends PrismaClient {
-  constructor (config: ConfigService){
+  constructor(config: ConfigService) {
     super({
       datasources: {
-        db:{
+        db: {
           url: config.get('DATABASE_URL')
         }
       }
     });
   }
+  // empty user table
+  public async cleanUser(): Promise<void> {
+    await this.$transaction([
+      this.user.deleteMany()
+    ]);
+  }
+
 }
