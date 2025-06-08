@@ -2,41 +2,12 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"  //"esm"
 }
 
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
-}
-
-model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  email String? @unique
-  hash  String?
-
-  firstName String?
-  lastName  String?
-
-  bookmarks Bookmark[]
-
-  @@map("users")
-}
-
-model Bookmark {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  title        String
-  desccription String?
-  link         String
-  userId       Int
-
-  user User @relation(fields: [userId], references: [id])
-
-  @@map("bookmarks")
 }
